@@ -1,13 +1,18 @@
-function [Time,Accuracy,TestLabels,TestValues,TestGuesses,Error,Theta] = multinomialLogisticRegression(Percentage,MaxGradientIterations,Tolerance)
+function [Time,Accuracy,TestLabels,TestProbabilities,TestGuesses,Error,Theta] = multinomialLogisticRegression(Percentage,MaxGradientIterations,LearningRate,Tolerance)
 %INPUTS:
-%Percentage = percentage of the data to train the model to
-%MaxGradientIterations = maximum number of iterations the gradient search
-%%%will take to find regression coefficients
-%Tolerance = "Epsilon" for Cauchy convergence
+%Percentage = percentage of data to use for training(between 0 and 1)
+%MaxGradientIterations = Maximum number of iterations for gradient descent
+%LearningRate = learning rate for gradient descent
+%Tolerance = Cauchy Convergence criteria for gradient descent (positive)
 
 %OUTPUTS:
-%Time = How long the algorithm ran for in seconds
-%Accuracy = percentage of the test data that the regression correctly found
+%Time = time it took the algorithm to run
+%Accuracy = how accurate the model was on the test data 
+%TestLabels = what the correct value of the image was
+%TestProbabilities = probabilities of each digit on the test data
+%TestGuesses = what the model predicted each image was
+%Error = Vector showing which of the data points are right and wrong
+%Theta = Regression coefficient matrix for picture
 %%%%%
 
 tic
@@ -38,10 +43,7 @@ TestGuesses = zeros(TestSize,1);
 TestNumerators = zeros(TestSize,10);
 TestDenominators = zeros(TestSize,10);
 
-LearningRate = 0.001;
-
 %Perform one iteration of Gradient Search
-%Speed this way up
 for j = 1:10
     for i = 1:TrainSize
         TrainNumerators(i,j) = exp(TrainDigits(i,:)*Theta(:,j));
@@ -71,8 +73,6 @@ Count = 1;
 while(MaxDifference > Tolerance && Count < MaxGradientIterations)
     Grad = zeros(784,10);
     OldTheta = NewTheta;
-    
-    %Speed this way up
     for j = 1:10
         for i = 1:TrainSize
             TrainNumerators(i,j) = exp(TrainDigits(i,:)*OldTheta(:,j));
@@ -93,8 +93,8 @@ while(MaxDifference > Tolerance && Count < MaxGradientIterations)
         end
     end
     MaxDifference = max(abs(LearningRate.*Grad));
-    MaxDifference = max(MaxDifference)
-    Count = Count + 1
+    MaxDifference = max(MaxDifference);
+    Count = Count + 1;
     NewTheta = OldTheta + LearningRate.*Grad;
     trackThetaPictures(NewTheta);
 end
@@ -111,11 +111,11 @@ TestDenominatorSum = sum(TestNumerators,2);
 for i = 1:TestSize
     TestDenominators(i,:) = TestDenominatorSum(i);
 end
-TestValues = TestNumerators./TestDenominators;
+TestProbabilities = TestNumerators./TestDenominators;
 
 %Calculate Test Values
 for i = 1:TestSize
-    [~,Element] = max(TestValues(i,:));
+    [~,Element] = max(TestProbabilities(i,:));
     TestGuesses(i) = Element-1;
 end
 

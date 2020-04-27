@@ -1,5 +1,6 @@
 %PictureTest1
 
+%Read MNIST Data
 ExcelMNIST = csvread('train.csv',1,0);
 Labels = ExcelMNIST(:,1);
 Digits = ExcelMNIST(:,2:785);%./255;

@@ -1,10 +1,28 @@
+function [Time,Accuracy,TestLabels,TestValues,TestGuesses,Error,Theta] = denseNeuralNetwork(Percentage,LearningRate,HiddenNeurons1,HiddenNeurons2,Tolerance,MaxEpochs,BatchSize)
+
 %Johannes Langelaar (2020). MNIST neural network training and testing
 %(https://www.mathworks.com/matlabcentral/fileexchange/73010-mnist-neural
 %-network-training-and-testing), MATLAB Central File Exchange.
 %Retrieved March 11, 2020.
 %Edited by Michael Gaiewski
 
-function [Time,Accuracy,TestLabels,TestValues,TestGuesses,Error,Theta] = denseNeuralNetwork(Percentage,LearningRate,HiddenNeurons1,HiddenNeurons2,Tolerance,MaxEpochs,BatchSize)
+%INPUTS:
+%Percentage = percentage of data to use for training(between 0 and 1)
+%LearningRate = learning rate for gradient descent
+%HiddenNuerons1 = Number of hidden neurons in the first hidden layer
+%HiddenNuerons2 = Number of hidden neurons in the second hidden layer
+%Tolerance = Cauchy Convergence criteria for gradient descent (positive)
+%MaxEpochs = Maximum Number of Epochs
+%BatchSize = Number of entries to use for each batch
+
+%OUTPUTS:
+%Time = time it took the algorithm to run
+%Accuracy = how accurate the model was on the test data 
+%TestGuesses = what the model predicted each image was
+%TestLabels = what the correct value of the image was
+%Error = Vector showing which of the data points are right and wrong
+%Theta = Weight matrix multiplied for picture (not exactly useful)
+%%%%%
 
 tic
 Data = csvread('train.csv',1,0);
@@ -84,14 +102,14 @@ while(MaxDifference > Tolerance && Epoch < MaxEpochs)
         Batches = Batches + BatchSize;
     end
     MaxDifference = max(abs(LearningRate.*Grad4));
-    MaxDifference = max(MaxDifference)
-    Epoch = Epoch + 1
+    MaxDifference = max(MaxDifference);
+    Epoch = Epoch + 1;
     Theta = (Weight12')*(Weight23')*(Weight34');
     trackThetaPictures(Theta);
-    savefig('Theta.fig');
     [TrainPixels,Output] = shuffle(TrainPixels,Output); %Shuffles order of the images for next epoch
 end
 
+%Test Data
 for i = 1:TestSize
      Output2 = elu(Weight12*TestPixels(:,i)+Bias12);
      Output3 = elu(Weight23*Output2+Bias23);

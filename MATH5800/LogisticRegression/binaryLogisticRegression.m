@@ -6,8 +6,7 @@ function [Results] = binaryLogisticRegression(Percentage,MaxGradientIterations,T
 %Tolerance = "Epsilon" for Cauchy convergence
 
 %OUTPUTS:
-%Time = How long the algorithm ran for in seconds
-%Accuracy = percentage of the test data that the regression correctly found
+%Results = Accuracy, time, and confusion matrix
 %%%%%
 
 tic
@@ -44,8 +43,8 @@ while(MaxDifference > Tolerance && Count <= MaxGradientIterations)
     Train = 1./(1+exp(-TrainDigits*OldTheta));
     Grad = (TrainDigits'*(Train-TrainLabels));
     NewTheta = OldTheta - 0.01*Grad;
-    MaxDifference = max(abs(0.01*Grad))
-    Count = Count + 1
+    MaxDifference = max(abs(0.01*Grad));
+    Count = Count + 1;
 end
 Theta = NewTheta;
 

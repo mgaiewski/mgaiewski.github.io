@@ -1,5 +1,6 @@
 function trackThetaPictures(Theta)
 
+%Visualize the digits 0-9 in the logistic regression
 Pixels = zeros(28,280);
 Theta = reshape(Theta,[7840,1]);
 for j = 1:10 %digits
