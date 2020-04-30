@@ -26,11 +26,19 @@ At this point, my group members and I began to take interest in different aspect
 
 ### Densely Connected Neural Network
 
-I then wished to see if I could use this idea of presenting this visualization on other types of machine learning algorithms. I found on a MATLAB discussion forum a multilayer perceptron densely connected neural network created by Johannes Langer. His code can be found here https://www.mathworks.com/matlabcentral/fileexchange/73010-mnist-neural
--network-training-and-testing. This algorithm contained two hidden layers, one with 80 neurons and one with 60 neurons. I noticed that if I took the weights from each layer which was 784 x 80, 80 x 60, 60 x 10 and matrix multiplied them, I would get a 784 x 10 matrix of weights which is what I was using for my function on the multinomial logistic regression. While later I realized I cannot simply use matrix multiplication because each weight gets sent to an activation function, the result still surprised me. I vaguely could make out the digits 0-9 using this method, not nearly as clearly as they were in the logistic regression, but still enough to get my attention. This appears to just be a coincidence but I still found it an interesting observation.
+I then wished to see if I could use this idea of presenting this visualization on other types of machine learning algorithms. I found on a MATLAB discussion forum a multilayer perceptron densely connected neural network created by Johannes Langer. This algorithm contained two hidden layers, one with 80 neurons and one with 60 neurons. I noticed that if I took the weights from each layer which was 784 x 80, 80 x 60, 60 x 10 and matrix multiplied them, I would get a 784 x 10 matrix of weights which is what I was using for my function on the multinomial logistic regression. While later I realized I cannot simply use matrix multiplication because each weight gets sent to an activation function, the result still surprised me. I vaguely could make out the digits 0-9 using this method, not nearly as clearly as they were in the logistic regression, but still enough to get my attention. This appears to just be a coincidence but I still found it an interesting observation.
 
 ### Convolutional Neural Network
 
 Lastly I looked at MATLAB’s own Convolutional Neural Network (CNN) example for the MNIST data using MATLAB’s Deep Learning Toolbox. I could not interpret the weights of the network as I had hoped to which finding a 784 x 10 matrix of weights, as that is not how a CNN works. However I looked at the first layer of the network after the input layer, the first convolutional layer, which found 8 different convolutional filter weights. I took one of the data entries in the test set, reshaped it, and computed the N-dimensional convolution of that data point and each of the 8 filters. I then rescaled the entries of each of the 8 resulting convolutions and converted them to grayscale images. I was able to find then what “shapes” of a digit were being looked for with each of the filters. Often times this looked like a horizontal, vertical, or diagonal line segment, which makes sense for the MNIST data.
 
 ![CNN Visual](CNN.jpg)
+
+## References
+
+Kaggle (2020). "MNIST Dataset: Digit Recognizer." <https://www.kaggle.com/ngbolin/mnist-dataset-digit-recognizer/data>.
+
+Langelaar, Johannes (2020). MNIST neural network training and testing <https://www.mathworks.com/matlabcentral/fileexchange/73010-mnist-neural-network-training-and-testing>, MATLAB Central File Exchange.
+
+MathWorks (2020). "Create Simple Deep Learning Network for Classification." <https://www.mathworks.com/help/deeplearning/ug/create-simple-deep-learning-network-for-classification.html>.
+
